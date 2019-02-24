@@ -1,5 +1,5 @@
 import unittest
-from musthe import *
+from mscthr.rudiments import *
 
 
 class TestsForLetter(unittest.TestCase):
@@ -72,7 +72,7 @@ class TestsForNote(unittest.TestCase):
         test2('E####')
 
     def test_note_gen(self):
-        self.assertEqual([n.scientific_notation() for n in Note.all(4,5)],
+        self.assertEqual([n.scientific_notation() for n in all.notes(4,5)],
             ['C4', 'C#4', 'Db4', 'D4', 'D#4', 'Eb4', 'E4', 'F4', 'F#4',
                 'Gb4', 'G4', 'G#4', 'Ab4', 'A4', 'A#4', 'Bb4', 'B4', 'C5',
                 'C#5', 'Db5', 'D5', 'D#5', 'Eb5', 'E5', 'F5', 'F#5', 'Gb5',
@@ -202,9 +202,9 @@ class TestsForInterval(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Interval('M10').complement())
 
     def test_interval_complement_2(self):
-        for n in Note.all(2, 3):
+        for n in all.notes(2, 3):
             n1 = n.to_octave(n.octave + 1)
-            for i in Interval.all():
+            for i in all.intervals():
                 self.assertEqual(n + i + i.complement(), n1)
                 self.assertEqual(n + i.complement() + i, n1)
 
@@ -253,13 +253,13 @@ class TestsForChord(unittest.TestCase):
 
     def test_chord_gen(self):
         roots = (Note('C'), Note('D'))
-        list(Chord.all())
-        list(Chord.all(root=tuple(roots)))
-        list(Chord.all(root=list(roots)))
+        list(all.chords())
+        list(all.chords(root=tuple(roots)))
+        list(all.chords(root=list(roots)))
         #list(Chord.all(root=set(roots))) # Note is not hashable
-        list(Chord.all(root=roots[0]))
+        list(all.chords(root=roots[0]))
 
-        self.assertRaises(TypeError, lambda: list(Chord.all(root='vdfjy#$')))
+        self.assertRaises(TypeError, lambda: list(all.chords(root='vdfjy#$')))
 
     def test_chord_recipes(self):
         def test1(root, name, intervals):
@@ -273,7 +273,7 @@ class TestsForChord(unittest.TestCase):
 
     @unittest.skip('Note.__sub__ is broken')
     def test_recipes_intervals(self):
-        for root in Note.all():
+        for root in all.notes():
             for name, recipe in Chord.recipes.items():
                 chord = Chord(root, name)
                 notes = chord.notes
@@ -315,7 +315,7 @@ class TestsForScale(unittest.TestCase):
         self.assertEqual(s[10:15], [Note(x) for x in ('F5', 'G5', 'Ab5', 'B5', 'C6')])
 
     def test_create_all_scales(self):
-        for scale in Scale.all():
+        for scale in all.scales():
             pass
 
     def test_greek_modes_equivalence(self):
@@ -337,7 +337,7 @@ class TestsForScale(unittest.TestCase):
         self.assertFalse(notes2 in scale)
 
         chords = (Chord('Fmaj'), Chord('Emin'))
-        chords2 = (Chord('Edim7'), Chord('Fdom7'))
+        chords2 = (Chord('Edim7'), Chord('F7'))
         self.assertTrue(chords[0] in scale)
         self.assertFalse(chords2[0] in scale)
         self.assertTrue(chords in scale)
