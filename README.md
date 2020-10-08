@@ -8,7 +8,11 @@ The purpose of this fork is to accommodate the features required by www.practice
 
 This fork is not on PyPi, meaning that you will specify this GitHub repository explicitly.
 
-Please just clone and use "pip install ." 
+Please just clone and use `py -m pip install git+https://github.com/aug0stus/mscthr#egg=mscthr`.
+
+## installing for development and/or modification purposes.
+
+`py -m pip install -e git+https://github.com/aug0stus/mscthr#egg=mscthr --src .` will install the package in an editable method at the directory specified by `--src`.
 
 # How to use (slightly different than musthe's [README.md](https://github.com/gciruelos/musthe/blob/master/README.md) )
 
